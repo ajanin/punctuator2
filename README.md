@@ -1,3 +1,8 @@
+# Adam's Changes
+
+This fork is just for some of my experiments. You should probably use ottokart/punctuator2 instead.
+
+
 **[DEMO](http://bark.phon.ioc.ee/punctuator)** and **[DEMO2](http://bark.phon.ioc.ee/punctuator/game)**
 
 # Punctuator
