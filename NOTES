@@ -1,0 +1,38 @@
+Adam's notes.
+
+virtualenv ~/venv/punctuator2
+. ~/venv/punctuator2/bin/activate
+
+
+pip install pycuda scikit-cuda numpy scipy matplotlib nose Theano nltk
+
+export CUDA_ROOT=/usr/lib/nvidia-cuda-toolkit
+
+cat sw_4390_short.in | python punctuator.py models/Demo-Europarl-EN.pcl sw_4390_short_europarl.out
+
+cat sw_4390_short_europarl.out | sed 's/^\(.\)/\u\1/' | sed 's/ \.PERIOD \(.\)/. \u\1/g; s/ ?QUESTIONMARK \(.\)/? \u\1/g; s/ ,COMMA/,/g; s/ :COLON/:/g;'
+
+
+cd example
+./run.sh
+cd ..
+python data.py ./example/out
+# This write to ../data. Ick.
+
+I rewrote example/run.sh to call dont_run...2.py, and also rewrote data.sh as data2.sh to have an ^UPPERNEXT punct, as well as ,COMMAUPPER, .PERIODUPPER, ?QUESTIONMARKUPPER.
+Example:
+
+^UPPERNEXT in the meantime ,COMMAUPPER i should like to observe a minute's silence ,COMMA as a number of ^UPPERNEXT members have requested ,COMMA on behalf of all the victims concerned
+
+cd example
+./run.sh
+cd ..
+python data2.py ./example/out2
+python main.py europarlupper 256 0.02 >& main.out &
+
+
+echo "the doctor will see you now doctor jones is through that door" | python punctuator.py Model_europarlupper_h256_lr0.02.pcl testout
+
+Oops. Other modules import data, so I can't just copy it and rename the copy data2.py.
+
+nohup python main.py europarlupper 256 0.02 >& main.out &
